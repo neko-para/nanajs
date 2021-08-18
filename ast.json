@@ -1,0 +1,183 @@
+{
+    "type": "block",
+    "key": "(",
+    "value": {
+        "binder": [
+            {
+                "type": "bind",
+                "target": {
+                    "type": "symbol",
+                    "value": [
+                        "blk"
+                    ]
+                },
+                "expose": false,
+                "value": [
+                    {
+                        "type": "block",
+                        "key": "{",
+                        "value": {
+                            "binder": [
+                                {
+                                    "type": "bind",
+                                    "target": {
+                                        "type": "symbol",
+                                        "value": [
+                                            "x"
+                                        ]
+                                    },
+                                    "expose": true,
+                                    "value": [
+                                        {
+                                            "type": "literal",
+                                            "value": "1",
+                                            "littype": "int"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "bind",
+                                    "target": {
+                                        "type": "symbol",
+                                        "value": [
+                                            "y"
+                                        ]
+                                    },
+                                    "expose": true,
+                                    "value": [
+                                        {
+                                            "type": "literal",
+                                            "value": "2",
+                                            "littype": "int"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "bind",
+                                    "target": {
+                                        "type": "symbol",
+                                        "value": [
+                                            "fun"
+                                        ]
+                                    },
+                                    "expose": true,
+                                    "value": [
+                                        {
+                                            "type": "block",
+                                            "key": "[",
+                                            "value": {
+                                                "binder": [],
+                                                "value": [
+                                                    [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": [
+                                                                "x"
+                                                            ]
+                                                        }
+                                                    ],
+                                                    [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": [
+                                                                "x"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "token",
+                                                            "value": "+"
+                                                        },
+                                                        {
+                                                            "type": "literal",
+                                                            "value": "1",
+                                                            "littype": "int"
+                                                        }
+                                                    ],
+                                                    [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": [
+                                                                "x"
+                                                            ]
+                                                        },
+                                                        {
+                                                            "type": "token",
+                                                            "value": "+"
+                                                        },
+                                                        {
+                                                            "type": "literal",
+                                                            "value": "2",
+                                                            "littype": "int"
+                                                        }
+                                                    ]
+                                                ]
+                                            },
+                                            "gate": {
+                                                "type": "block",
+                                                "key": "|",
+                                                "value": [
+                                                    {
+                                                        "type": "symbol",
+                                                        "value": "x"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ],
+                            "value": [
+                                {
+                                    "value": [
+                                        {
+                                            "type": "literal",
+                                            "value": "1",
+                                            "littype": "int"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "valuetype": "set"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "bind",
+                "target": {
+                    "type": "binder tuple",
+                    "key": "<",
+                    "value": [
+                        "x",
+                        "y"
+                    ]
+                },
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": [
+                            "blk"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "value": [
+            [
+                {
+                    "type": "symbol",
+                    "value": [
+                        "blk",
+                        "fun"
+                    ]
+                },
+                {
+                    "type": "literal",
+                    "value": "1",
+                    "littype": "int"
+                }
+            ]
+        ]
+    }
+}

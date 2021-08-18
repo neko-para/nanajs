@@ -92,7 +92,8 @@ export function* nanaLex(input = "") {
             }
             pos++
             token = {
-                type: 'raw',
+                type: 'str',
+                raw: true,
                 value: ''
             }
             inRaw = true
@@ -177,8 +178,8 @@ export function* nanaLex(input = "") {
         }
     }
     if (token) {
-        if (token.type === 'str' || token.type === 'raw') {
-            throw `unexpected EOF in ${token.type} literal`
+        if (token.type === 'str') {
+            throw `unexpected EOF in ${token.raw ? 'raw' : 'str'} literal`
         } else {
             yield token
         }
