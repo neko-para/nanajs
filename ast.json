@@ -97,7 +97,15 @@
                                                         {
                                                             "type": "symbol",
                                                             "value": [
-                                                                "x"
+                                                                "y"
+                                                            ]
+                                                        }
+                                                    ],
+                                                    [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": [
+                                                                "y"
                                                             ]
                                                         },
                                                         {
@@ -106,7 +114,7 @@
                                                         },
                                                         {
                                                             "type": "literal",
-                                                            "value": "2",
+                                                            "value": "1",
                                                             "littype": "int"
                                                         }
                                                     ]
@@ -116,10 +124,18 @@
                                                 "type": "block",
                                                 "key": "|",
                                                 "value": [
-                                                    {
-                                                        "type": "symbol",
-                                                        "value": "x"
-                                                    }
+                                                    [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ]
                                                 ]
                                             }
                                         }
@@ -175,6 +191,11 @@
                 {
                     "type": "literal",
                     "value": "1",
+                    "littype": "int"
+                },
+                {
+                    "type": "literal",
+                    "value": "2",
                     "littype": "int"
                 }
             ]

@@ -120,11 +120,17 @@ function wrapSpecialBlock(token) {
             return t.value
         })
     } else if (token.key === '|') {
-        if (token.value.binder.length > 0) {
-            throw 'no binder statement inside gate'
-        }
-        token.value = token.value.value.map(t => {
-            return t.value
+        token.value = split(token.value,
+            t => t.type === 'token' && t.value === ',',
+            t => {
+                if (t.type !== 'symbol') {
+                    throw `unexpected ${t.type} ${t.value} inside gate`
+                }
+            })
+        token.value.forEach(ts => {
+            if (ts.length > 1) {
+                throw 'too much symbol inside gate which shoul be seperate by ,'
+            }
         })
     } else {
         for (const ts of token.value.binder) {
@@ -138,6 +144,9 @@ function wrapSpecialBlock(token) {
             if (t.type === 'block') {
                 wrapSpecialBlock(t)
             }
+        }
+        if (token.gate) {
+            wrapSpecialBlock(token.gate)
         }
     }
 }
