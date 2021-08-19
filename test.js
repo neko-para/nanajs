@@ -13,5 +13,7 @@ const script = `
     <x; y> = blk;
     blk.max blk.x blk.y
 `
+const result = nanaParser(script)
 
-fs.writeFileSync('ast.json', JSON.stringify(nanaParser(script), null, 4))
+console.log(result.length)
+fs.writeFileSync('ast.json', JSON.stringify(result, null, 4))
