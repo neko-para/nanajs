@@ -1,204 +1,4322 @@
-{
-    "type": "block",
-    "key": "(",
-    "value": {
+[
+    {
+        "type": "tuple",
         "binder": [
             {
-                "type": "bind",
-                "target": {
-                    "type": "symbol",
-                    "value": [
-                        "blk"
-                    ]
-                },
+                "type": "binder",
+                "target": "blk",
                 "expose": false,
-                "value": [
-                    {
-                        "type": "block",
-                        "key": "{",
-                        "value": {
-                            "binder": [
-                                {
-                                    "type": "bind",
-                                    "target": {
-                                        "type": "symbol",
-                                        "value": [
-                                            "x"
-                                        ]
-                                    },
-                                    "expose": true,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
                                     "value": [
                                         {
-                                            "type": "literal",
-                                            "value": "1",
-                                            "littype": "int"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "bind",
-                                    "target": {
-                                        "type": "symbol",
-                                        "value": [
-                                            "y"
-                                        ]
-                                    },
-                                    "expose": true,
-                                    "value": [
-                                        {
-                                            "type": "literal",
-                                            "value": "2",
-                                            "littype": "int"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "bind",
-                                    "target": {
-                                        "type": "symbol",
-                                        "value": [
-                                            "fun"
-                                        ]
-                                    },
-                                    "expose": true,
-                                    "value": [
-                                        {
-                                            "type": "block",
-                                            "key": "[",
-                                            "value": {
-                                                "binder": [],
-                                                "value": [
-                                                    [
-                                                        {
-                                                            "type": "symbol",
-                                                            "value": [
-                                                                "x"
-                                                            ]
-                                                        }
-                                                    ],
-                                                    [
-                                                        {
-                                                            "type": "symbol",
-                                                            "value": [
-                                                                "x"
-                                                            ]
-                                                        },
-                                                        {
-                                                            "type": "token",
-                                                            "value": "+"
-                                                        },
-                                                        {
-                                                            "type": "literal",
-                                                            "value": "1",
-                                                            "littype": "int"
-                                                        }
-                                                    ],
-                                                    [
-                                                        {
-                                                            "type": "symbol",
-                                                            "value": [
-                                                                "y"
-                                                            ]
-                                                        }
-                                                    ],
-                                                    [
-                                                        {
-                                                            "type": "symbol",
-                                                            "value": [
-                                                                "y"
-                                                            ]
-                                                        },
-                                                        {
-                                                            "type": "token",
-                                                            "value": "+"
-                                                        },
-                                                        {
-                                                            "type": "literal",
-                                                            "value": "1",
-                                                            "littype": "int"
-                                                        }
-                                                    ]
-                                                ]
-                                            },
-                                            "gate": {
-                                                "type": "block",
-                                                "key": "|",
-                                                "value": [
-                                                    [
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
                                                         {
                                                             "type": "symbol",
                                                             "value": "x"
                                                         }
                                                     ],
-                                                    [
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
                                                         {
                                                             "type": "symbol",
                                                             "value": "y"
                                                         }
-                                                    ]
-                                                ]
-                                            }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
-                            ],
-                            "value": [
-                                {
-                                    "value": [
-                                        {
-                                            "type": "literal",
-                                            "value": "1",
-                                            "littype": "int"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "valuetype": "set"
+                            }
                         }
-                    }
-                ]
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
             },
             {
-                "type": "bind",
-                "target": {
-                    "type": "binder tuple",
-                    "key": "<",
-                    "value": [
-                        "x",
-                        "y"
-                    ]
-                },
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
                 "expose": false,
                 "value": [
                     {
                         "type": "symbol",
-                        "value": [
-                            "blk"
-                        ]
+                        "value": "blk"
                     }
                 ]
             }
         ],
         "value": [
-            [
-                {
-                    "type": "symbol",
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
                     "value": [
-                        "blk",
-                        "fun"
+                        1
                     ]
-                },
-                {
-                    "type": "literal",
-                    "value": "1",
-                    "littype": "int"
-                },
-                {
-                    "type": "literal",
-                    "value": "2",
-                    "littype": "int"
                 }
-            ]
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    {
+                        "type": "call",
+                        "function": [
+                            {
+                                "type": "symbol",
+                                "value": "blk"
+                            },
+                            {
+                                "type": "symbol",
+                                "value": "x"
+                            }
+                        ],
+                        "argument": [
+                            [
+                                {
+                                    "type": "symbol",
+                                    "value": "blk"
+                                },
+                                {
+                                    "type": "symbol",
+                                    "value": "y"
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": "blk",
+                "expose": false,
+                "value": {
+                    "type": "set",
+                    "binder": [
+                        {
+                            "type": "binder",
+                            "target": "x",
+                            "expose": false,
+                            "value": 1
+                        },
+                        {
+                            "type": "binder",
+                            "target": "y",
+                            "expose": false,
+                            "value": 2
+                        },
+                        {
+                            "type": "binder",
+                            "target": "max",
+                            "expose": false,
+                            "value": {
+                                "type": "function",
+                                "gate": [
+                                    "x",
+                                    "y"
+                                ],
+                                "block": {
+                                    "type": "vector",
+                                    "binder": null,
+                                    "value": [
+                                        {
+                                            "type": "addsub",
+                                            "value": [
+                                                {
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "x"
+                                                        }
+                                                    ],
+                                                    "sub": false
+                                                },
+                                                {
+                                                    "type": "addsub",
+                                                    "value": [
+                                                        {
+                                                            "type": "symbol",
+                                                            "value": "y"
+                                                        }
+                                                    ],
+                                                    "sub": true
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "value": [
+                        1
+                    ]
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
+        ]
+    },
+    {
+        "type": "tuple",
+        "binder": [
+            {
+                "type": "binder",
+                "target": {
+                    "type": "symbol",
+                    "value": "blk"
+                },
+                "expose": false,
+                "value": {
+                    "type": "function",
+                    "gate": [],
+                    "block": {
+                        "type": "set",
+                        "binder": [
+                            {
+                                "type": "binder",
+                                "target": "x",
+                                "expose": false,
+                                "value": 1
+                            },
+                            {
+                                "type": "binder",
+                                "target": "y",
+                                "expose": false,
+                                "value": 2
+                            },
+                            {
+                                "type": "binder",
+                                "target": "max",
+                                "expose": false,
+                                "value": {
+                                    "type": "function",
+                                    "gate": [
+                                        "x",
+                                        "y"
+                                    ],
+                                    "block": {
+                                        "type": "vector",
+                                        "binder": null,
+                                        "value": [
+                                            {
+                                                "type": "addsub",
+                                                "value": [
+                                                    {
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "x"
+                                                            }
+                                                        ],
+                                                        "sub": false
+                                                    },
+                                                    {
+                                                        "type": "addsub",
+                                                        "value": [
+                                                            {
+                                                                "type": "symbol",
+                                                                "value": "y"
+                                                            }
+                                                        ],
+                                                        "sub": true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "value": [
+                            1
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "binders",
+                "target": [
+                    {
+                        "type": "symbol",
+                        "value": "x"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "y"
+                    }
+                ],
+                "expose": false,
+                "value": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    }
+                ]
+            }
+        ],
+        "value": [
+            {
+                "type": "call",
+                "function": [
+                    {
+                        "type": "symbol",
+                        "value": "blk"
+                    },
+                    {
+                        "type": "symbol",
+                        "value": "max"
+                    }
+                ],
+                "argument": [
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "x"
+                        }
+                    ],
+                    [
+                        {
+                            "type": "symbol",
+                            "value": "blk"
+                        },
+                        {
+                            "type": "symbol",
+                            "value": "y"
+                        }
+                    ]
+                ]
+            }
         ]
     }
-}
+]

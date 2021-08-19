@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "nana port to js",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "test": "node test.js"
+    "build": "nearleyc nana.ne -o nanane.js",
+    "test": "nearleyc nana.ne -o nanane.js && node test.js"
   },
   "author": "nekosu",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^7.32.0"
+  },
+  "dependencies": {
+    "moo": "^0.5.1",
+    "nearley": "^2.20.1"
   }
 }
