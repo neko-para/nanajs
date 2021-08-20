@@ -19,13 +19,14 @@ const script = `
     blk = (
         x := 1;
         y := 2;
-        max := |x, y| (
+        max := |(x, y)| (
             x - y
         );
-        1
+        1, 2
     );
     <x; y> = blk;
-    blk.max blk.x blk.y
+    [v1, v2] = blk;
+    blk.max (v1, v2)
 `
 
 function save(result) {
