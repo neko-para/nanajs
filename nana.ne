@@ -5,6 +5,7 @@ const lexer = moo.compile({
     int: /[+-]?[1-9][0-9]*/,
     float: /[+-]?(?:[1-9][0-9]*\.[0-9]*|0\.[0-9]*)(?:[eE][+-]?[1-9][0-9]*)?/,
     str: /"(?:[^\\]|\\["\\bfnrtv]|\\u[0-9a-fA-F]{4})*"/,
+    raw: /\[\|[\s\S]*\|\]/,
     ws: {
         match: /[ \n\t\v\f]+/,
         lineBreaks: true
@@ -31,382 +32,111 @@ const lexer = moo.compile({
     ".": /\./
 })
 %}
+
 @lexer lexer
 
-file -> binder_value {% function (data) {
-    return {
-        type: 'tuple',
-        binder: data[0].binder,
-        value: data[0].value
-    }
-} %}
+file -> _ tuple_content _ {% ([, {binder, value}]) => ({type: 'tuple', binder: binder, value: value}) %}
 
 _ -> null
     | %ws
 
 __ -> %ws
 
-number -> %int {% data => parseInt(data[0].value) %}
-    | %float {% data => parseFloat(data[0].value) %}
+number -> %int {% ([data]) => ({type: 'literal', ltype: 'int', value: parseInt(data.value)}) %}
+    | %float {% ([data]) => ({type: 'literal', ltype: 'float', value: parseFloat(data.value)}) %}
 
-string -> %str {% data => data[0].value %}
+string -> %str {% ([data]) => ({type: 'literal', ltype: 'string', value: data.value}) %}
+    | %raw {% ([data]) => ({type: 'literal', ltype: 'raw', value: data.value}) %}
 
-literal -> number {% data => data[0] %}
-    | string {% data => data[0] %}
+literal -> number {% id %}
+    | string {% id %}
 
-symbol -> %symbol {% function (data) {
-    return {
-        type: 'symbol',
-        value: data[0].value
-    }
-} %}
+symbol -> %symbol {% ([data]) => data.value %}
 
-csymbol -> symbol {% function (data) {
-    return [ data[0] ]
-} %}
-    | symbol "." csymbol {% function (data) {
-        return [ data[0], ...data[2] ]
-    } %}
+multi_symbol_d -> symbol {% ([data]) => ([data]) %}
+    | symbol _ "," _ multi_symbol_d {% ([data, , , , other]) => ([data, ...other]) %}
 
-symbol_d -> symbol {% function (data) {
-    return [ data[0] ]
-} %}
-    | symbol _ "," _ symbol_d {% function (data) {
-        return [ data[0], ...data[4] ]
-    } %}
+multi_symbol_f -> symbol {% ([data]) => ([data]) %}
+    | symbol _ ";" _ multi_symbol_f {% ([data, , , , other]) => ([data, ...other]) %}
 
-symbol_f -> symbol {% function (data) {
-    return [ data[0] ]
-} %}
-    | symbol _ ";" _ symbol_d {% function (data) {
-        return [ data[0], ...data[4] ]
-    } %}
+multi_symbol_s -> symbol {% ([data]) => ([data]) %}
+    | symbol _ multi_symbol_s {% ([data, , other]) => ([data, ...other]) %}
 
-symbol_s -> symbol _ symbol {% function (data) {
-    return [ data[0], data[2] ]
-} %}
-    | symbol _ symbol_s {% function (data) {
-        return [ data[0], ...data[2] ]
-    } %}
+gate -> "|" _ multi_symbol_d _ "|" {% ([, , data]) => data %}
+    | "|" _ "|" {% () => ([]) %}
 
-gate -> "|" _ symbol_d _ "|" {% function (data) {
-    return {
-        type: 'gate',
-        value: data[2].map(s => s.value)
-    }
-} %}
+binder -> binder_statement {% ([data]) => ([data]) %}
+    | binder_statement _ binder {% ([data, , other]) => ([data, ...other]) %}
 
-value_d -> value {% function (data) {
-    return [ data[0] ]
-} %}
-    | value _ "," _ value_d {% function (data) {
-        return [ data[0], ...data[4] ]
-    } %}
+binder_equ -> "=" {% () => false %}
+    | ":=" {% () => true %}
 
-value_hash_d -> literal _ ":" _ value {% function (data) {
-    return [
-        {
-            key: data[0],
-            value: data[4]
-        }
-    ]
-} %}
-    | literal _ ":" _ value _ "," _ value_hash_d {% function (data) {
-        return [
-            {
-                key: data[0],
-                value: data[4]
-            },
-            ...data[8]
-        ]
-    } %}
+binder_statement -> symbol _ binder_equ _ expr _ ";" {% ([target, , expose, , value]) => ({type: 'bind', target, expose, value}) %}
+    | symbol _ multi_symbol_s _ binder_equ _ expr _ ";" {% ([target, , gate, , expose, , value]) => ({type: 'bind', target, expose, value: {type: 'gate', gate, value}}) %}
+    | "<" _ multi_symbol_f _ ">" _ binder_equ _ expr _ ";" {% ([, , targets, , , , expose, , value]) => ({}) %}
 
-binder_equ -> "=" {% data => data[0] %}
-    | ":=" {% data => data[0] %}
+value -> literal {% id %}
+    | block {% id %}
+    | symbol {% ([value]) => ({type: 'symbol', value}) %}
 
-binder_statement -> symbol _ binder_equ _ value _ ";" {% function (data) {
-        return {
-            type: 'binder',
-            target: data[0].value,
-            expose: data[2] === ':=',
-            value: data[4]
-        }
-    } %}
-    | symbol_s _ binder_equ _ block _ ";" {% function (data) {
-        return {
-            type: 'binder',
-            target: data[0][0],
-            expose: data[2] === ':=',
-            value: {
-                type: 'function',
-                gate: data[0].slice(1).map(s => s.value),
-                block: data[4]
-            }
-        }
-    } %}
-    | "<" _ symbol_f _ ">" _ binder_equ _ block _ ";" {% function (data) {
-        return {
-            type: 'binders',
-            target: data[2],
-            expose: data[6] === ':=',
-            value: data[8]
-        }
-    } %}
-    | "<" _ symbol_f _ ">" _ binder_equ _ csymbol _ ";" {% function (data) {
-        return {
-            type: 'binders',
-            target: data[2],
-            expose: data[6] === ':=',
-            value: data[8]
-        }
-    } %}
+expr0_ -> "." _ symbol {% ([, , symbol]) => ([symbol]) %}
+    | "." _ symbol _ expr0_ {% ([, , data, , other]) => ([data, ...other]) %}
 
-binder -> binder_statement {% function (data) {
-    return [ data[0] ]
-} %}
-    | binder_statement _ binder {% function (data) {
-    return [ data[0], ...data[2] ]
-} %}
+expr0 -> value {% id %}
+    | value _ expr0_ {% ([value, , member]) => ({type: 'member', value, member}) %}
 
-binder_value -> _ {% function (data) {
-    return {
-        binder: null,
-        value: null
-    }
-} %}
-    | _ binder _ {% function (data) {
-        return {
-            binder: data[1],
-            value: null
-        }
-    } %}
-    | _ value_d _ {% function (data) {
-        return {
-            binder: null,
-            value: data[1]
-        }
-    } %}
-    | _ binder _ value_d _ {% function (data) {
-        return {
-            binder: data[1],
-            value: data[3]
-        }
-    } %}
+expr1 -> expr0 {% id %}
+    | gate _ expr1 {% ([gate, , value]) => ({type: 'gate', gate, value}) %}
 
-binder_value_hash -> binder_value {% data => data[0] %}
-    | _ value_hash_d _ {% function (data) {
-        return {
-            binder: null,
-            value: data[1],
-            hash: true
-        }
-    } %}
-    | _ binder _ value_hash_d _ {% function (data) {
-        return {
-            binder: data[1],
-            value: data[3],
-            hash: true
-        }
-    } %}
+expr2_ -> expr1 {% ([arg]) => ([arg]) %}
+    | expr1 _ expr2_ {% ([arg, , other]) => ([arg, ...other]) %}
 
-tuple -> "(" binder_value ")" {% function (data) {
-    return {
-        type: 'tuple',
-        binder: data[1].binder,
-        value: data[1].value
-    }
-} %}
+expr2 -> expr1 {% id %}
+    | expr1 _ expr2_ {% ([func, , arg]) => ({type: 'call', func, arg}) %}
 
-vector -> "[" binder_value "]" {% function (data) {
-    return {
-        type: 'vector',
-        binder: data[1].binder,
-        value: data[1].value
-    }
-} %}
+expr3 -> expr2 {% id %}
+    | expr2 _ "*" _ expr3 {% ([left, , , , right]) => ({type: 'mul', left, right}) %}
+    | expr2 _ "/" _ expr3 {% ([left, , , , right]) => ({type: 'div', left, right}) %}
 
-hash -> "{" binder_value_hash "}" {% function (data) {
-    return {
-        type: data[1].hash ? 'map' : 'set',
-        binder: data[1].binder,
-        value: data[1].value
-    }
-} %}
+expr4 -> expr3 {% id %}
+    | expr3 _ "+" _ expr4 {% ([left, , , , right]) => ({type: 'add', left, right}) %}
+    | expr3 _ "-" _ expr4 {% ([left, , , , right]) => ({type: 'sub', left, right}) %}
 
-block -> tuple {% data => data[0] %}
-    | vector {% data => data[0] %}
-    | hash {% data => data[0] %}
+expr -> expr4 {% id %}
 
-gate_block -> gate _ block {% function (data) {
-    return {
-        type: 'function',
-        gate: data[0].value,
-        block: data[2]
-    }
-} %}
+exprs -> expr {% ([data]) => ([data]) %}
+    | expr _ "," _ exprs {% ([data, , , , other]) => ([data, ...other]) %}
 
-func -> csymbol {% data => data[0] %}
-    | gate_block {% data => data[0] %}
+tuple_content -> binder _ exprs {% ([binder, , value]) => ({binder, value}) %}
+    | binder {% ([binder]) => ({binder, value: null}) %}
+    | exprs {% ([value]) => ({binder: null, value}) %}
+    | _ {% () => ({binder: null, value: null}) %}
 
-func_call -> func _ values_no_call {% function (data) {
-    return {
-        type: 'call',
-        function: data[0],
-        argument: data[2]
-    }
-} %}
+vector_content -> binder _ exprs {% ([binder, , value]) => ({binder, value}) %}
+    | binder {% ([binder]) => ({binder, value: null}) %}
+    | exprs {% ([value]) => ({binder: null, value}) %}
+    | _ {% () => ({binder: null, value: null}) %}
 
-value -> expr {% data => data[0] %}
-    | gate_block {% data => data[0] %}
-    | string {% data => data[0] %}
+hash_expr -> expr _ ":" _ expr {% ([key, , , , value]) => ({key, value}) %}
 
-values -> value {% function (data) {
-    return [ data[0] ]
-} %}
-    | value __ values {% function (data) {
-        return [ data[0], ...data[2] ]
-    } %}
+hash_exprs -> hash_expr {% ([data]) => ([data]) %}
+    | hash_expr _ "," _ hash_exprs {% ([data, , , , other]) => ([data, ...other]) %}
 
-value_no_call -> expr_no_call
-    | gate_block
-    | string
+hash_set_content -> binder _ exprs {% ([binder, , value]) => ({binder, value}) %}
+    | binder {% ([binder]) => ({binder, value: null}) %}
+    | hash_exprs {% ([value]) => ({binder: null, value}) %}
+    | _ {% () => ({binder: null, value: null}) %}
 
-values_no_call -> value_no_call {% function (data) {
-    return [ data[0] ]
-} %}
-    | value_no_call __ values_no_call {% function (data) {
-        return [ data[0], ...data[2] ]
-    } %}
+hash_map_content -> binder _ hash_exprs {% ([binder, , value]) => ({binder, value}) %}
+    | hash_exprs {% ([value]) => ({binder: null, value}) %}
 
-num_no_call -> number {% data => data[0] %}
-    | csymbol {% data => data[0] %}
-    | block {% data => data[0] %}
+tuple -> "(" _ tuple_content _ ")" {% ([, , value]) => ({type: 'tuple', value}) %}
 
-num -> num_no_call {% data => data[0] %}
-    | func_call {% data => data[0] %}
+vector -> "([" _ vector_content _ "]" {% ([, , value]) => ({type: 'vector', value}) %}
 
-num2 -> num {% data => data[0] %}
-    | num _ op2 _ num2 {% function (data) {
-        let r = data[4]
-        if (r.type !== 'muldiv') {
-            r = [
-                {
-                    type: 'muldiv',
-                    value: r,
-                    div: data[2] === '/'
-                }
-            ]
-        } else if (data[2] === '/') {
-            r = r.value.map(s => {
-                s.div = !s.div
-            })
-        } else {
-            r = r.value
-        }
-        return {
-            type: 'muldiv',
-            value: [
-                {
-                    value: data[0],
-                    div: false
-                },
-                ...r
-            ]
-        }
-    } %}
+hash -> "{" _ hash_set_content _ "}" {% ([, , value]) => ({type: 'set', value}) %}
+    | "{" _ hash_map_content _ "}" {% ([, , value]) => ({type: 'map', value}) %}
 
-num2_no_call -> num_no_call {% data => data[0] %}
-    | num_no_call _ op2 _ num2_no_call {% function (data) {
-        let r = data[4]
-        if (r.type !== 'muldiv') {
-            r = [
-                {
-                    type: 'muldiv',
-                    value: r,
-                    div: data[2] === '/'
-                }
-            ]
-        } else if (data[2] === '/') {
-            r = r.value.map(s => {
-                s.div = !s.div
-            })
-        } else {
-            r = r.value
-        }
-        return {
-            type: 'muldiv',
-            value: [
-                {
-                    value: data[0],
-                    div: false
-                },
-                ...r
-            ]
-        }
-    } %}
-
-expr -> num2 {% data => data[0] %}
-    | num2 _ op1 _ expr {% function (data) {
-        let r = data[4]
-        if (r.type !== 'addsub') {
-            r = [
-                {
-                    type: 'addsub',
-                    value: r,
-                    sub: data[2] === '-'
-                }
-            ]
-        } else if (data[2] === '-') {
-            r = r.value.map(s => {
-                s.sub = !s.sub
-            })
-        } else {
-            r = r.value
-        }
-        return {
-            type: 'addsub',
-            value: [
-                {
-                    value: data[0],
-                    sub: false
-                },
-                ...r
-            ]
-        }
-    } %}
-
-expr_no_call -> num2_no_call {% data => data[0] %}
-    | num2_no_call _ op1 _ expr_no_call {% function (data) {
-        let r = data[4]
-        if (r.type !== 'addsub') {
-            r = [
-                {
-                    type: 'addsub',
-                    value: r,
-                    sub: data[2] === '-'
-                }
-            ]
-        } else if (data[2] === '-') {
-            r = r.value.map(s => {
-                s.sub = !s.sub
-            })
-        } else {
-            r = r.value
-        }
-        return {
-            type: 'addsub',
-            value: [
-                {
-                    value: data[0],
-                    sub: false
-                },
-                ...r
-            ]
-        }
-    } %}
-
-op1 -> "+" {% data => data[0].value %}
-    | "-" {% data => data[0].value %}
-
-op2 -> "*" {% data => data[0].value %}
-    | "/" {% data => data[0].value %}
+block -> tuple {% id %}
+    | vector {% id %}
+    | hash {% id %}
