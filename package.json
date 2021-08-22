@@ -2,7 +2,7 @@
   "name": "nanajs",
   "version": "1.0.0",
   "description": "nana port to js",
-  "main": "index.js",
+  "main": "test.js",
   "scripts": {
     "build": "nearleyc nana.ne -o nanane.js",
     "test": "nearleyc nana.ne -o nanane.js && node test.js"
