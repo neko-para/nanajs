@@ -126,7 +126,7 @@ map_pattern -> multi_map_pattern_expand_d {% ([front]) => ({type: 'pattern', pty
     | multi_map_pattern_expand_d "+" symbol_pattern "+" multi_map_pattern_expand_d {% ([front, , middle, , back]) => ({type: 'pattern', ptype: 'map', front, middle, back}) %}
 
 binder_statement -> pattern binder_equ expr ";" {% ([pattern, expose, value]) => ({type: 'bind', pattern, expose, value}) %}
-    | symbol multi_symbol_s binder_equ expr ";" {% ([target, gate, expose, value]) => ({type: 'bindf', target, expose, value: {type: 'gate', gate, value}}) %}
+    | symbol multi_pattern_d binder_equ expr ";" {% ([target, gate, expose, value]) => ({type: 'bind', pattern: {type: 'pattern', ptype: 'symbol', value: target}, expose, value: {type: 'gate', gate, value}}) %}
 
 value -> literal {% id %}
     | block {% id %}
