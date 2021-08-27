@@ -1,5 +1,5 @@
 const nanaParser = require('./index.js')
-const {nanaEval, nanaEvaluator} = require('./evaluator.js')
+const nanaEvaluate = require('./eval.js')
 const fs = require('fs')
 
 /*
@@ -23,12 +23,18 @@ const fs = require('fs')
 */
 
 const script = `
-    [
-        c = |x| (e:=x; x + y);
-        d y = c;
-        a = |(x, y)| c;
-        a (1, 2) 3, d 2 4
-    ]
+    <tc> = [
+        blk = (
+            x := 1;
+            y := 2;
+            max := |x, y| (
+                x - y
+            );
+            1
+        );
+        tc := blk.max blk.x;
+    ];
+    tc -1
 `
 
 function save(result) {
@@ -38,8 +44,7 @@ function save(result) {
 try {
     const result = nanaParser(script, save)
     save(result)
-    const v = nanaEval(result)
-    console.log(nanaEvaluator(v))
+    console.log(nanaEvaluate(result))
 } catch (e) {
     console.log('error:', e)
 }

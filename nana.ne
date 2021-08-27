@@ -41,7 +41,7 @@ lexer.next = (next => () => {
 
 @lexer lexer
 
-file -> tuple_content {% ([{binder, value}]) => ({type: 'tuple', binder: binder, value: value}) %}
+file -> tuple_content {% ([value]) => ({type: 'tuple', ...value}) %}
 
 number -> %int {% ([data]) => ({type: 'literal', ltype: 'int', value: parseInt(data.value)}) %}
     | %float {% ([data]) => ({type: 'literal', ltype: 'float', value: parseFloat(data.value)}) %}
@@ -65,6 +65,16 @@ multi_symbol_s -> symbol:+ {% id %}
 gate -> "|" multi_pattern_d "|" {% ([, data]) => data %}
     | "|" "|" {% () => ([]) %}
 
+gate_block -> block {% id %}
+    | gate gate_block {% ([gate, value]) => {
+        if ('gate' in value) {
+            value.gate = [...gate, ...value.gate]
+        } else {
+            value.gate = gate
+        }
+        return value
+    } %}
+
 binder -> binder_statement:+ {% id %}
 
 binder_equ -> "=" {% () => false %}
@@ -81,7 +91,7 @@ pattern -> binder_pattern {% id %}
     | set_pattern {% id %}
     | map_pattern {% id %}
     | symbol_pattern {% id %}
-    | literal {% id %}
+    | literal {% ([{ltype, value}]) => ({type: 'pattern', ptype: 'literal', ltype, value}) %}
 
 binder_pattern -> "<" multi_symbol_f ">" {% ([, value]) => ({type: 'pattern', ptype: 'bind', value}) %}
 
@@ -129,17 +139,14 @@ binder_statement -> pattern binder_equ expr ";" {% ([pattern, expose, value]) =>
     | symbol multi_pattern_d binder_equ expr ";" {% ([target, gate, expose, value]) => ({type: 'bind', pattern: {type: 'pattern', ptype: 'symbol', value: target}, expose, value: {type: 'gate', gate, value}}) %}
 
 value -> literal {% id %}
-    | block {% id %}
+    | gate_block {% id %}
     | symbol {% ([value]) => ({type: 'symbol', value}) %}
 
-expr0_ -> "." symbol {% ([, symbol]) => ([symbol]) %}
-    | "." symbol expr0_ {% ([, data, other]) => ([data, ...other]) %}
+expr1_ -> "." symbol {% ([, symbol]) => ([symbol]) %}
+    | "." symbol expr1_ {% ([, data, other]) => ([data, ...other]) %}
 
-expr0 -> value {% id %}
-    | value expr0_ {% ([value, member]) => ({type: 'member', value, member}) %}
-
-expr1 -> expr0 {% id %}
-    | gate expr1 {% ([gate, value]) => ({type: 'gate', gate, value}) %}
+expr1 -> value {% id %}
+    | value expr1_ {% ([value, member]) => ({type: 'member', value, member}) %}
 
 expr2_ -> expr1 {% ([arg]) => ([arg]) %}
     | expr1 expr2_ {% ([arg, other]) => ([arg, ...other]) %}
@@ -163,6 +170,7 @@ exprs -> expr {% ([data]) => ([data]) %}
 tuple_content -> binder exprs {% ([binder, value]) => ({binder, value}) %}
     | binder {% ([binder]) => ({binder, value: null}) %}
     | exprs {% ([value]) => ({binder: null, value}) %}
+    | expr "," {% ([value]) => ({binder: null, value: [value], forcetuple: true}) %}
     | null {% () => ({binder: null, value: null}) %}
 
 vector_content -> binder exprs {% ([binder, value]) => ({binder, value}) %}
