@@ -3,26 +3,6 @@ const nanaEvaluate = require('./eval.js')
 const fs = require('fs')
 
 /*
-    blk = (
-        x := 1;
-        y := 2;
-        max := |x, y| (
-            x - y
-        );
-        1
-    );
-    <x; y> = blk;
-    blk.max blk.x blk.y
-    [[1, d], (e, 4)] = [[1, 2], (3, 4)];
-    d, e
-
-        c = |x| (x + y);
-        d y = c;
-        a = |(x, y)| c;
-        a (1, 2) 3, d 2 4
-*/
-
-const script = `
     <tc> = [
         blk = (
             x := 1;
@@ -34,7 +14,20 @@ const script = `
         );
         tc := blk.max blk.x;
     ];
-    tc -1
+    ? tc -1 == 2
+    | x -> x + 2
+    | 0 -> "WTF?"
+*/
+
+const script = `
+[
+    factorial x := (
+        ? x
+        | 0 -> 1
+        | _ -> x * factorial (x - 1)
+    );
+    factorial 4
+]
 `
 
 function save(result) {

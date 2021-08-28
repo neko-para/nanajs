@@ -1,8 +1,8 @@
 @{%
 const moo = require("moo")
 const lexer = moo.compile({
-    symbol: /_?[a-zA-Z][a-zA-Z0-9_]*'*/,
-    int: /[+-]?[1-9][0-9]*/,
+    symbol: /(?:_|_?[a-zA-Z][a-zA-Z0-9_]*'*)/,
+    int: /[+-]?(?:[1-9][0-9]*|0)/,
     float: /[+-]?(?:[1-9][0-9]*\.[0-9]*|0\.[0-9]*)(?:[eE][+-]?[1-9][0-9]*)?/,
     str: /"(?:[^\\"]|\\.)*"/,
     raw: /\[\|[\s\S]*\|\]/,
@@ -19,6 +19,8 @@ const lexer = moo.compile({
     "<": /</,
     ">": />/,
     "->": /->/,
+    "==": /==/,
+    "!=": /!=/,
     "=": /=/,
     ":=": /:=/,
     "+": /\+/,
@@ -30,7 +32,10 @@ const lexer = moo.compile({
     ":": /:/,
     ",": /,/,
     ".": /\./,
-    "?": /\?/
+    "?": /\?/,
+    ">=": />=/,
+    "<=": /<=/,
+    "|": /\|/
 })
 lexer.next = (next => () => {   
   let token;
@@ -136,7 +141,15 @@ map_pattern -> multi_map_pattern_expand_d {% ([front]) => ({type: 'pattern', pty
     | multi_map_pattern_expand_d "+" symbol_pattern "+" multi_map_pattern_expand_d {% ([front, , middle, , back]) => ({type: 'pattern', ptype: 'map', front, middle, back}) %}
 
 binder_statement -> pattern binder_equ expr ";" {% ([pattern, expose, value]) => ({type: 'bind', pattern, expose, value}) %}
-    | symbol multi_pattern_d binder_equ expr ";" {% ([target, gate, expose, value]) => ({type: 'bind', pattern: {type: 'pattern', ptype: 'symbol', value: target}, expose, value: {type: 'gate', gate, value}}) %}
+    | symbol multi_pattern_d binder_equ expr ";" {% ([target, gate, expose, value]) => {
+        const v = {type: 'bind', pattern: {type: 'pattern', ptype: 'symbol', value: target}, expose, value}
+            if ('gate' in v.value) {
+                v.value.gate = [...gate, ...v.value.gate]
+            } else {
+                v.value.gate = gate
+            }
+            return v
+        } %}
 
 value -> literal {% id %}
     | gate_block {% id %}
@@ -161,8 +174,22 @@ expr3 -> expr2 {% id %}
 expr4 -> expr3 {% id %}
     | expr3 "+" expr4 {% ([left, , right]) => ({type: 'add', left, right}) %}
     | expr3 "-" expr4 {% ([left, , right]) => ({type: 'sub', left, right}) %}
+    
+expr5 -> expr4 {% id %}
+    | expr4 ">" expr4 {% ([left, , right]) => ({type: 'greater', left, right}) %}
+    | expr4 "<" expr4 {% ([left, , right]) => ({type: 'lesser', left, right}) %}
+    | expr4 ">=" expr4 {% ([left, , right]) => ({type: 'nonlesser', left, right}) %}
+    | expr4 "<=" expr4 {% ([left, , right]) => ({type: 'nongreater', left, right}) %}
+    | expr4 "==" expr4 {% ([left, , right]) => ({type: 'equal', left, right}) %}
+    | expr4 "!=" expr4 {% ([left, , right]) => ({type: 'nonequal', left, right}) %}
 
-expr -> expr4 {% id %}
+expr6_ -> "|" pattern "->" expr5 {% ([, pattern, , value]) => ([{pattern, value}]) %}
+    | "|" pattern "->" expr5 expr6_ {% ([, pattern, , value, other]) => ([{pattern, value}, ...other]) %}
+
+expr6 -> expr5 {% id %}
+    | "?" expr5 expr6_ {% ([, cond, cases]) => ({type: 'test', cond, cases}) %}
+
+expr -> expr6 {% id %}
 
 exprs -> expr {% ([data]) => ([data]) %}
     | expr "," exprs {% ([data, , other]) => ([data, ...other]) %}

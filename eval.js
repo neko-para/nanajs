@@ -8,15 +8,71 @@ function dump(obj) {
         for (const k in obj) {
             if (k === 'parent') { // skip recursive
                 o.parent = obj.parent
-                continue
+            } else {
+                o[k] = dump(obj[k])
             }
-            o[k] = dump(obj[k])
         }
         return o
     } else {
         return obj
     }
 }
+
+function unwrap(obj) {
+    if (obj instanceof Object && obj.type === 'tuple' && obj.processed && !obj.forcetuple && obj.value.length === 1 && Object.keys(obj.bind).length === 0) {
+        return [obj.value[0], true]
+    } else {
+        return [obj, false]
+    }
+}
+
+function unwraps(obj) {
+    for (;;) {
+        const [o, f] = unwrap(obj)
+        if (f) {
+            obj = o
+        } else {
+            break
+        }
+    }
+    return obj
+}
+/*
+// number < string < tuple < vector < set < map
+
+function compare(o1, o2) {
+    const typeOrder = ['number', 'string', 'tuple', 'vector', 'set', 'map']
+    const typeCompare = {
+        number: (n1, n2) => n1 - n2,
+        string: (s1, s2) => s1.localeCompare(s2),
+        tuple: (t1, t2) => {
+            if (!t1.processed || !t2.processed) {
+                throw `compare failed | value not processed`
+            }
+            if (t1.value.length !== t2.value.length) {
+                return t1.value.length - t2.value.length
+            } else {
+                for (let i = 0; i < t1.value.length; i++) {
+                    const c = compare(t1.value[i], t2.value[i])
+                    if (c !== 0) {
+                        return c
+                    }
+                }
+                return 0
+            }
+        }
+    }
+    const t1 = o1 instanceof Object ? o1.type : typeof(o1)
+    const t2 = o2 instanceof Object ? o2.type : typeof(o2)
+    const to1 = typeOrder.indexOf(t1)
+    const to2 = typeOrder.indexOf(t2)
+    if (to1 !== to2) {
+        return to1 - to2
+    } else {
+        return typeCompare[t1](o1, o2)
+    }
+}
+*/
 
 function nanaEval(ast, parent = null, asvalue = false) {
     let Eval = (a) => nanaEval(a, parent, asvalue)
@@ -35,7 +91,7 @@ function nanaEval(ast, parent = null, asvalue = false) {
                     return parent.gate[key]
                 }
                 if (parent.type === 'tuple' && key === parent.name) {
-                    return parent
+                    return parent.parent.bind[key]
                 }
                 parent = parent.parent
             }
@@ -53,6 +109,9 @@ function nanaEval(ast, parent = null, asvalue = false) {
                 value: [],
                 process() {
                     if (this.gatepat.length !== this.gatecache.length) {
+                        for (const v of this.gatecache) {
+                            console.log(v)
+                        }
                         throw `process failed | tuple | gate count not match, pattern ${this.gatepat.length}, cache ${this.gatecache.length}`
                     }
                     for (let i = this.gatepat.length - 1; i >= 0; i--) {
@@ -88,16 +147,13 @@ function nanaEval(ast, parent = null, asvalue = false) {
             if (ret.gatepat.length === 0) { // no gate at all
                 ret.process()
             }
-            if ((ast.value || []).length === 1 && !ast.forcetuple && ast.binder === null && ret.processed) {
-                return ret.value[0]
-            } else {
-                return ret
-            }
+            return unwraps(ret)
         }
         case 'vector': {
             const ret = {
                 type: 'vector',
                 parent,
+                forcetuple: ast.forcetuple,
                 gate: {},
                 bind: {},
                 expose: {},
@@ -148,9 +204,15 @@ function nanaEval(ast, parent = null, asvalue = false) {
         case 'add':
         case 'sub':
         case 'mul':
-        case 'div': {
-            const l = Eval(ast.left)
-            const r = Eval(ast.right)
+        case 'div':
+        case 'greater':
+        case 'lesser':
+        case 'nongreater':
+        case 'nonlesser':
+        case 'equal':
+        case 'nonequal': {
+            const l = unwraps(Eval(ast.left))
+            const r = unwraps(Eval(ast.right))
             if (typeof(l) !== 'number' || typeof(r) !== 'number') {
                 throw `perform operation on non-number | left ${typeof(l)}, right ${typeof(r)}`
             }
@@ -166,6 +228,18 @@ function nanaEval(ast, parent = null, asvalue = false) {
                         throw `divide on zero`
                     }
                     return l / r
+                case 'greater':
+                    return l > r ? 1 : 0
+                case 'lesser':
+                    return l < r ? 1 : 0
+                case 'nongreater':
+                    return l >= r ? 1 : 0
+                case 'nonlesser':
+                    return l <= r ? 1 : 0
+                case 'equal':
+                    return l === r ? 1 : 0
+                case 'nonequal':
+                    return l !== r ? 1 : 0
             }
             throw `why it's here`
         }
@@ -191,12 +265,51 @@ function nanaEval(ast, parent = null, asvalue = false) {
             return v;
         }
         case 'call': {
-            const ret = dump(Eval(ast.func))
-            ret.gatecache = ret.gatecache.concat(ast.arg.map(Eval))
+            const v = Eval(ast.func)
+            if (v.processed) {
+                console.warn(`calling on processed block`)
+            }
+            const ret = dump(v)
+            ret.gatecache = [...ret.gatecache, ...ast.arg.map(Eval)]
             if (!ret.processed && ret.gatecache.length >= ret.gatepat.length) {
                 ret.process()
             }
-            return ret;
+            return unwraps(ret)
+        }
+        case 'test': {
+            const v = Eval(ast.cond)
+            if (v instanceof Object && !v.processed) {
+                throw `test failed | value not processed`
+            }
+            console.log(`testing`, v)
+            const fd = []
+            for (const c of ast.cases) {
+                const cp = nanaEval(c.pattern)
+                const cbd = {}
+                if (cp.match(v, cbd)) {
+                    fd.push(c)
+                }
+            }
+            if (fd.length === 0) {
+                throw `test failed | no match found`
+            }
+            if (fd.length > 1) {
+                console.warn(`test failed | too much match(${fd.length}) found, use first match`)
+            }
+            const c = fd[0]
+            const tmp = {
+                type: 'call',
+                func: {
+                    type: 'tuple',
+                    binder: null,
+                    gate: [c.pattern],
+                    value: [c.value]
+                },
+                arg: [
+                    ast.cond
+                ]
+            }
+            return Eval(tmp)
         }
         case 'pattern':
             switch (ast.ptype) {
